@@ -1,0 +1,52 @@
+﻿@page "/"
+
+
+<PageTitle>Index</PageTitle>
+
+<svg height="200" width="200">
+    <CircleSvg Radius="@radius" Color="@color"/>
+
+</svg>
+
+<input type="range" 
+       class="form-control-range" 
+       step=".1" min="20" max="60" 
+       @bind-value="@radius" 
+       @bind-value:event="oninput"  />
+<br />
+
+<input type="checkbox" checked="@isChecked" @oninput="CheckboxChanged">
+
+
+<label for="pump1-status" class="chkbox">Pump 1</label>
+
+@code {
+    double radius = 40;
+    bool pump1Status;
+    string color = "blue";
+    [Parameter]
+    public bool IsChecked { get; set; } = true;
+
+    // Internal field holding checkbox state
+    private bool isChecked;
+    // updates the internal value whwenever the component is updated
+    // You may not want that??
+    protected override void OnParametersSet()
+    {
+        isChecked = this.IsChecked;
+    }
+
+    private void CheckboxChanged(ChangeEventArgs e)
+    {
+        // get the checkbox state
+        var value = e.Value;
+        if (true == (bool) value)
+            color = "lightgreen";
+        else
+            color = "red";
+        Console.WriteLine($"Checkbox changed {IsChecked}");
+    }
+
+
+
+}
